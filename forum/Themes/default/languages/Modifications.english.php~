@@ -1,0 +1,37 @@
+<?php
+// Version: 2.0; Modifications
+
+$txt['googleAnalyticsCode'] = 'Google Analytics code<br /><span class="smalltext">E.g. UA-00000000-0</span>';
+
+// Labradoodle-360; Customizable Home Page
+$txt['forum'] = 'Forum';
+$txt['customizable_home_page'] = 'Customizable Home Page';
+$txt['customizable_home_page_manage'] = 'Manage Customizable Home Page';
+$txt['customizable_home_page_nosettings'] = 'What\'d you do?!?! Just kidding. No settings here. Sorry!';
+/* -- Actual Settings -- */
+$txt['homepage_browser_title'] = 'Homepage Browser Title:';
+$txt['homepage_content'] = 'Page Content:<div class="smalltext">BBC will be parsed.</div>';
+$txt['lorem_ipslum'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ligula nunc, mattis a porttitor a, malesuada eu orci. Suspendisse potenti. Vivamus tempor varius elit sit.';
+$txt['homepage_header_integrate'] = 'Blend Header and Body:';
+$txt['homepage_header_type'] = 'Select Header Type:';
+$txt['homepage_body_type'] = 'Select Body Type:';
+$txt['disable_homepage'] = 'Disable Home Page:';
+$txt['homepage_header_title'] = 'Header Text:';
+$txt['disable_homepage_header'] = 'Disable Header:';
+/* -- Headers --*/
+$txt['general_settings'] = 'General Settings';
+$txt['header_settings'] = 'Header Settings';
+$txt['body_settings'] = 'Body Settings';
+$txt['body_content'] = 'Body Content';
+/* -- Labels -- */
+$txt['select_catbg'] = 'Category Background';
+$txt['select_titlebg'] = 'Title Background';
+$txt['select_roundframe'] = 'Roundframe';
+$txt['select_windowbg'] = 'Windowbg';
+$txt['select_windowbg2'] = 'Windowbg2';
+$txt['select_information'] = 'Information';
+/* -- Copyright; Please don't remove -- */
+$txt['customizable_home_page_copyright'] = 'Customizable Home Page - Matthew Kerle &copy; 2011';
+// End Labradoodle-360; Customizable Home Page
+
+?>
