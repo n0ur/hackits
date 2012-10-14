@@ -48,7 +48,7 @@ $retrytimeout = 3600;    // seconds a user has to wait until retrying an examn
 
 // MySQL passwords
 $dbwritepass      = "";
-$dbreadpass		  = "";
+$dbreadpass       = "";
 
 // Form passwords for staff
 $challengeaddpass = "";
