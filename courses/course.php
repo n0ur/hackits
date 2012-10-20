@@ -27,7 +27,7 @@
 	// Description: Load the course file specified by the GET variable 'id'
 	//
 
-	$courseid = $_GET['id'];
+	$courseid = isset($_GET['id']) ? $_GET['id'] : 0;
 	$errorstring = "<p class=\"center\"><img alt=\"Y U NO GIVE ID\" src=\"images/yuno.png\" /><br /><br />No active course, select a valid course from the overview!</p>";
 	$filename = "courses/course".$courseid.".php";
 	$mincourseid = 0;

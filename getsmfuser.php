@@ -1,4 +1,5 @@
 <?
+require_once('settings.php');
 
 ///////////////////////////////////////////////////////////////////////////////////
 // 888    888        d8888  .d8888b.  888    d8P  8888888 88888888888 .d8888b.   //
@@ -22,8 +23,11 @@
 //                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////
 
-require("settings.php");
-
+if(constant('DEVMODE')){
+    $usernametext = "DEVMODE";
+    $loggedin = $usernameid = 1;
+    return;
+}
 $sessionid = $_COOKIE['PHPSESSID'];
 
 if($sessionid=="")
@@ -33,16 +37,11 @@ if($sessionid=="")
 }
 else
 {
-	$link = mysql_connect($dbhost,$dbreaduser,$dbreadpass);
-	if (!$link) {
-	    die('Server made a whoops: ' . mysql_error());
-	}
-	mysql_select_db($dbname);
-	$sessionid = mysql_real_escape_string($sessionid);
-	$query = "SELECT `member_name`,`id_member` FROM `smf_members` WHERE `id_member` = (SELECT `id_member` FROM `smf_log_online` WHERE `session`='".$sessionid."');";
-	$usernametext = mysql_result(mysql_query($query), 0, 0);
-	$usernameid = mysql_result(mysql_query($query), 0, 1);
-	mysql_close($link);
+
+	$query = "SELECT `member_name`,`id_member` FROM `smf_members` WHERE `id_member` = (SELECT `id_member` FROM `smf_log_online` WHERE `session`=':session')";
+    $res = $db->getOne($query, array(':session' => $sessionid));
+	$usernametext = $res['member_name'];
+	$usernameid = $res['id_member'];
 
 	if($usernametext=="")
 	{

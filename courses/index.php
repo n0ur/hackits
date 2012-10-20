@@ -33,9 +33,7 @@ if(isset($_GET['id']))
 // format date for display in header bar
 $showdate = date('F d, o, h:i:s A');
 
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -109,8 +107,8 @@ $showdate = date('F d, o, h:i:s A');
       $("#course").load("course.php?id="+id);
       $("#tabs").tabs( "select" , "tab-course" )
   }
-  <? echo $loadcourse; ?>
+  <? echo isset($loadcourse) ? $loadcourse : ''; ?>
 </script>
-
+<?php Utils::queryLog(); ?>
 </body>
 </html>

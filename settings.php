@@ -1,5 +1,4 @@
 <?
-
 ///////////////////////////////////////////////////////////////////////////////////
 // 888    888        d8888  .d8888b.  888    d8P  8888888 88888888888 .d8888b.   //
 // 888    888       d88888 d88P  Y88b 888   d8P     888       888    d88P  Y88b  //
@@ -22,9 +21,20 @@
 //                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////
 
+/* add ipv4 ranges where debug mode should be enabled */
+$__DEVS = array(
+    '192.168.0.0/16',
+    '172.16.0.0/12',
+    '10.0.0.0/8',
+);
+
+require_once('scripts/init.php');
+
+
 // MySQL settings
 $dbhost           = "localhost";
-$dbname           = "hackits.be";
+$dbport           = 3306;
+$dbname           = "hackits";
 $dbwriteuser      = "hackits-write";
 $dbreaduser       = "hackits-read";
 
@@ -57,4 +67,14 @@ $courseaddpass    = "";
 // Fill private settings with secret data
 require("private_settings.php");
 
-?>
+$db = new PDOMySQL(array(
+   'host' => $dbhost,
+   'port' => $dbport,
+   'db' => $dbname,
+   'readuser' => $dbreaduser,
+   'readpass' => $dbreadpass,
+   'writeuser' => $dbwriteuser,
+   'writepass' => $dbwritepass,
+));
+
+require_once('getsmfuser.php');
