@@ -3,23 +3,23 @@
 ?>
 <div id="coursenavigation">
 	<ol class="tree">
-		<li class="file"><a href="#" onClick="selectPart('default')">Introduction</a></li>
+		<li class="file"><a href="#">Introduction</a></li>
 		<li>
 			<label for="theory">Theory</label><input type="checkbox" checked id="theory" />
 			<ol>
-				<li class="file"><a href="#" onClick="selectPart('chapter1')">DHCP</a></li>
-				<li class="file"><a href="#" onClick="selectPart('chapter2')">Firewalling</a></li>
-				<li class="file"><a href="#" onClick="selectPart('chapter3')">DNS</a></li>
-				<li class="file"><a href="#" onClick="selectPart('chapter4')">NTP</a></li>
+				<li class="file"><a href="#">DHCP</a></li>
+				<li class="file"><a href="#">Firewalling</a></li>
+				<li class="file"><a href="#">DNS</a></li>
+				<li class="file"><a href="#">NTP</a></li>
 			</ol>
 		</li>
 		<li>
 			<label for="exercises">Exercises</label> <input type="checkbox" checked id="exercises" />
 			<ol>
-				<li class="file"><a href="#" onClick="selectPart('exercise1')">Exercise 1</a></li>
+				<li class="file"><a href="#">Exercise 1</a></li>
 			</ol>
 		</li>
-		<li class="file"><a href="#" onClick="selectPart('examn')">Exam</a></li>
+		<li class="file"><a href="#">Exam</a></li>
 	</ol>
 </div>
 <div id="coursecontent">
@@ -37,7 +37,7 @@
 		<p>The first chapter will explain you how to set a DHCP server, shaping your networks in zones.</p>
 		<p>The second chapter will guide you trough the setup of the routing and filtering</p>
 		<p>The third and fourth chapters will help you setup NTP and DNS on your network</p>
-		<p class="center"><a href="#" onClick="selectPart('chapter1')"> to chapter 1</a></p>
+		<p class="center"><a href="#"> to chapter 1</a></p>
 	</div>
 	<div id="chapter1">
 		<h1>Dynamic Host Configuration Protocol</h1>
@@ -132,7 +132,7 @@
 		<p>Once your configuration is done, save it as /etc/dhcpd.conf, restart dhcpd and things should be working :)</p>
 		<p>Carefull with the "{ }" and ";" If you miss one, dhcpd will not run!</p><br />
 		<p>It's nice to have zones... my next tutorial will explain how to enable networking between those zones.</p><br />
-		<p class="center"><a href="#" onClick="selectPart('chapter2')">>> Next Chapter >></a></p>
+		<p class="center"><a href="#">>> Next Chapter >></a></p>
 	</div>
 	<div id="chapter2">
 		<h1>Firewalling</h1>
@@ -147,7 +147,7 @@
 	<div class="revealbutton" onClick="$('#answer1').show(); $('.revealbutton').hide(); ">Reveal Answer</div>
 	<div class="answer" id="answer1">
 		<p>Well done, you revealed the answer but there's no question yet :)</p>
-		<p>no exam yet... <a href="#" onClick="selectPart('examn')">Click here</a> to check out the void!</p>
+		<p>no exam yet... <a href="#">Click here</a> to check out the void!</p>
 	</div>
 	</div>
 	<div id="examn">

@@ -3,67 +3,67 @@
 ?>
 <div id="coursenavigation">
 	<ol class="tree">
-		<li class="file"><a href="#" onClick="selectPart('default')">Introduction</a></li>
+		<li class="file"><a href="#">Introduction</a></li>
 		<li>
 			<label for="clients">IRC Clients</label><input type="checkbox" checked id="clients" />
 			<ol>
-				<li class="file"><a href="#" onClick="selectPart('chapter1')">Webclients</a></li>
-				<li class="file"><a href="#" onClick="selectPart('chapter2')">Windows</a></li>
-				<li class="file"><a href="#" onClick="selectPart('chapter3')">Linux</a></li>
+				<li class="file"><a href="#">Webclients</a></li>
+				<li class="file"><a href="#">Windows</a></li>
+				<li class="file"><a href="#">Linux</a></li>
 			</ol>
 		</li>
 		<li>
 			<label for="background">Technical Background</label><input type="checkbox" checked id="background" />
 			<ol>
-				<li class="file"><a href="#" onClick="selectPart('chapter4')">How IRC works</a></li>
-				<li class="file"><a href="#" onClick="selectPart('chapter5')">IRC Security</a></li>
-				<li class="file"><a href="#" onClick="selectPart('chapter6')">Installing an IRCd</a></li>
+				<li class="file"><a href="#">How IRC works</a></li>
+				<li class="file"><a href="#">IRC Security</a></li>
+				<li class="file"><a href="#">Installing an IRCd</a></li>
 			</ol>
 		</li>
 		<li>
 			<label for="exercises">Exercises</label> <input type="checkbox" checked id="exercises" />
 			<ol>
-				<li class="file"><a href="#" onClick="selectPart('exercise1')">Exercise 1</a></li>
+				<li class="file"><a href="#">Exercise 1</a></li>
 			</ol>
 		</li>
-		<li class="file"><a href="#" onClick="selectPart('examn')">Exam</a></li>
+		<li class="file"><a href="#">Exam</a></li>
 	</ol>
 </div>
 <div id="coursecontent">
 	<div id="default">
 		<h1>Internet Relay Chat (IRC)</h1>
 		<p>Under construction!</p>
-		<p class="center"><a href="#" onClick="selectPart('chapter1')">>> Let's start! >></a></p>
+		<p class="center"><a href="#">>> Let's start! >></a></p>
 	</div>
 	<div id="chapter1">
 		<h1>Webclients</h1>
 		<p></p>
-		<p class="center"><a href="#" onClick="selectPart('chapter2')">>> Next Chapter >></a></p>
+		<p class="center"><a href="#">>> Next Chapter >></a></p>
 	</div>
 	<div id="chapter2">
 		<h1>Windows Clients</h1>
 		<p></p>
-		<p class="center"><a href="#" onClick="selectPart('chapter3')">>> Next Chapter >></a></p>
+		<p class="center"><a href="#">>> Next Chapter >></a></p>
 	</div>
 	<div id="chapter3">
 		<h1>Linux Clients</h1>
 		<p></p>
-		<p class="center"><a href="#" onClick="selectPart('chapter4')">>> Next Chapter >></a></p>
+		<p class="center"><a href="#">>> Next Chapter >></a></p>
 	</div>
 	<div id="chapter4">
 		<h1>How IRC works</h1>
 		<p></p>
-		<p class="center"><a href="#" onClick="selectPart('chapter5')">>> Next Chapter >></a></p>
+		<p class="center"><a href="#">>> Next Chapter >></a></p>
 	</div>
 	<div id="chapter5">
 		<h1>IRC Security</h1>
 		<p></p>
-		<p class="center"><a href="#" onClick="selectPart('chapter6')">>> Next Chapter >></a></p>
+		<p class="center"><a href="#">>> Next Chapter >></a></p>
 	</div>
 	<div id="chapter6">
 		<h1>Installing an IRCd</h1>
 		<p></p>
-		<p class="center"><a href="#" onClick="selectPart('exercise1')">>> Next Chapter >></a></p>
+		<p class="center"><a href="#">>> Next Chapter >></a></p>
 	</div>
 	<div id="exercise1">
 	<h3>Exercise 1:</h3>
