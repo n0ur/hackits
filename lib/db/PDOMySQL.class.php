@@ -31,6 +31,11 @@ class PDOMySQL {
         self::$log[] = $log;
     }
 
+    public function count($query, $params){
+        $r = $this->getOne("select count(1) as `count` from ".$query, $params, 1);
+        return $r ? $r['count'] : null;
+    }
+
     public function getOne($query, $params){
         $r = $this->getAll($query, $params, 1);
         return $r ? $r[0] : null;
