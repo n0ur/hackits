@@ -18,5 +18,45 @@
 // Description: Displays a hackits members list sorted by course score           //
 //                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////
+
+    function get_course_score($courseId, $completedCount){
+        return 100 / ($completedCount + 1); // TODO: score algorithm
+    }
+    function get_course_rank($courseId, $score){
+        return 1;// TODO: rank algorithm
+    }
+
+    $cols = array(
+        '#', 'course', 'completed', 'score', 'rank'
+    );
+    $table = array();
+    if($tree) foreach($tree as $categoryId => $courses) {
+        $table[] = sprintf('<thead><tr><th colspan="%s">%s</th></tr>', count($cols), $categories[$categoryId]);
+        $table[] = count($courses) > 0
+            ? sprintf('<tr><td>%s</td></tr></thead><tbody>', implode('</td><td>', $cols))
+            : '</thead><tbody>';
+        
+        foreach($courses as $index => $course){
+            $completedCount = $db->count('
+                `hackits_courseresults`
+                WHERE courseid = :courseid
+                  AND finished IS NULL', array(':courseid' => $course['id']));
+            $score = get_course_score($course['id'], $completedCount);
+            $rank = get_course_rank($course['id'], $score);
+            $table[] = sprintf('<tr><td>%s</td></tr>', implode('</td><td>', array(
+                $index + 1,
+                $course['title'],
+                $completedCount,
+                $score,
+                $rank
+            )));
+        }
+        if(count($courses) == 0){
+            $table[] = sprintf('<tr><td colspan="%s">%s</td></tr>', count($cols), "No courses available");
+        }
+        $table[] = '</tbody>';
+    }
+    echo '<table>'.implode('', $table).'</table>'
+
+
 ?>
-<p>Under construction</p>

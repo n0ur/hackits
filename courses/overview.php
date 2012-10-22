@@ -47,6 +47,7 @@
 
 	// Make database connection
 
+    $tree = array();
 	// Display the courses
 	foreach($categories as $id => $name) {
 
@@ -54,7 +55,7 @@
 		$nrcompleted = 0;
 		$courses = $db->getAll("SELECT * FROM `hackits_courses` WHERE `category`=:category", array(':category' => $id));
 		$output = "";
-
+        $tree[$id] = $courses;
 		if($courses) foreach($courses as $index => $course) {
             $nrtotal++;
             $author = DEVMODE ? 'DEVMODE' : $db->getOne(
@@ -71,10 +72,21 @@
             } else {
                 $checked = "";
             }
-            $output .= "<tr><td class=\"check\">".$checked."</td><td><a onClick=\"showCourse('".$course['id']."')\">".$course['title']."</a></td><td>".$course['points']."</td><td>".$course['level']."</td><td>".$author."</td><td>".$course['completed']."</td></tr>";
+            $urlname = urlencode($course['title']);
+            $output .= <<<°
+                <tr>
+                    <td class="check">$checked</td>
+                    <td>{$course['title']}</td>
+                    <td>{$course['points']}</td>
+                    <td>{$course['level']}</td>
+                    <td>{$author}</td>
+                    <td>{$course['completed']}</td>
+                </tr>
+°;
 		}
 
-		echo "<h3><a href=\"#\">".$name." (".$nrcompleted."/".$nrtotal.")</a></h3><div>";
+        $link = "/overview/".urlencode($name);
+		echo "<h3><a rel=\"address:$link\" href=\"$link\">".$name." (".$nrcompleted."/".$nrtotal.")</a></h3><div>";
 		echo "<p>".$description[$id]."</p>";
 		echo "<div class=\"tablecontainer\"><table><tr><th class=\"check\"></th><th class=\"title\">Title</th><th class=\"points\">Points</th><th class=\"level\">Level</th><th class=\"author\">Author</th><th class=\"completed\">Passed</th></tr>";
 		echo $output;

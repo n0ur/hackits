@@ -6,22 +6,22 @@ require("courseheader.php");
 
 <div id="coursenavigation">
 	<ol class="tree">
-		<li class="file"><a href="#" onClick="selectPart('default')">Introduction</a></li>
+		<li class="file"><a data-contentid="default" href="#/course/General/Introduction">Introduction</a></li>
 		<li>
 			<label for="theory">Theory</label><input type="checkbox" checked id="theory" />
 			<ol>
-				<li class="file"><a href="#" onClick="selectPart('chapter1')">Chapter 1</a></li>
+				<li class="file"><a data-contentid="chapter1" href="#/course/General/Chapter+1">Chapter 1</a></li>
 				*** add more chapter links here ***
 			</ol>
 		</li>
 		<li>
 			<label for="exercises">Exercises</label> <input type="checkbox" checked id="exercises" />
 			<ol>
-				<li class="file"><a href="#" onClick="selectPart('exercise1')">Exercise 1</a></li>
+				<li class="file"><a data-contentid="exercise1" href="#/course/General/Exercise+1">Exercise 1</a></li>
 				*** add more exercise links here ***
 			</ol>
 		</li>
-		<li class="file"><a href="#" onClick="selectPart('examn')">Exam</a></li>
+		<li class="file"><a data-contentid="examn" href="#/course/General/Exam">Exam</a></li>
 	</ol>
 </div>
 
@@ -29,7 +29,7 @@ require("courseheader.php");
 
 	<div id="default">
 		Default
-		<p class="center"><a href="#" onClick="selectPart('chapter1')">>> Next Chapter >></a></p>
+		<p class="center"><a href="#/course/General/[nextChapterName]">>> Next Chapter >></a></p>
 	</div>
 
 	<div id="chapter1">

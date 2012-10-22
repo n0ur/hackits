@@ -25,7 +25,7 @@ function init(){
         ini_set('display_errors', 1);
         $error_handler = function($no, $str, $file, $line, $context){ //show nicer errors and stack trace
             while(ob_get_level() > 1) ob_end_clean();
-            printf('<pre style="padding:5px;background:#fbb;border:1px solid #f33;font-size: 1.2em;color:#000"
+            printf('<pre class="trace" style="position:relative;padding:5px;background:#fbb;border:1px solid #f33;font-size: 1.2em;color:#000"
             >ERR: %s - %s in %s:%s',
                 $no, $str, $file, $line);
             echo "\n\nSTACKTRACE:\n";
@@ -40,6 +40,7 @@ function init(){
 //            <div onclick="this.childNodes[0].style.display=\'block\'"><pre style="display:none;"> %s</pre>
 //                Show ENV
 //            </div>', print_r($context, true));
+            echo '<script>$("pre.trace").appendTo("body");</script>';
             ob_end_flush();
             exit(1);
         };
