@@ -1,5 +1,7 @@
 <?php
 
+require_once("Settings_private.php");
+
 /**
  * Simple Machines Forum (SMF)
  *
@@ -29,7 +31,6 @@ $db_type = 'mysql';
 $db_server = 'localhost';
 $db_name = 'hackits';
 $db_user = 'hackits.be';
-$db_passwd = 'Eichlosleg';
 $ssi_db_user = '';
 $ssi_db_passwd = '';
 $db_prefix = 'smf_';
