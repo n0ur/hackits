@@ -19,8 +19,6 @@
 //                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////
 
-require("../settings.php");
-
 ?>
 <div id="courses">
 <?
@@ -48,35 +46,47 @@ require("../settings.php");
 						10 => 'Cryptography Description');
 
 	// Make database connection
-	$link = mysql_connect($dbhost, $dbreaduser, $dbreadpass);
-	mysql_select_db($dbname);
 
+    $tree = array();
 	// Display the courses
 	foreach($categories as $id => $name) {
 
 		$nrtotal = 0;
 		$nrcompleted = 0;
-		$courses = mysql_query("SELECT * FROM `hackits_courses` WHERE `category`='".$id."';");
+		$courses = $db->getAll("SELECT * FROM `hackits_courses` WHERE `category`=:category", array(':category' => $id));
 		$output = "";
-
-		if(mysql_num_rows($courses)>0) {
-			while ($course = mysql_fetch_assoc($courses)) {
-				$nrtotal++;
-				$author = mysql_result(mysql_query("SELECT member_name FROM `smf_members` WHERE `id_member`='".$course['author']."';"),0,0);
-				$finished = mysql_result(mysql_query("SELECT finished FROM `hackits_courseresults` WHERE `userid`='".$usernameid."' AND `courseid`='".$course['id']."';"),0,0);
-				if(!$finished==NULL) {
-					$checked = "<em class=\"checked\"></em>";
-					$nrcompleted++;
-				}
-				else
-				{
-					$checked = "";
-				}
-				$output .= "<tr><td class=\"check\">".$checked."</td><td><a onClick=\"showCourse('".$course['id']."')\">".$course['title']."</a></td><td>".$course['points']."</td><td>".$course['level']."</td><td>".$author."</td><td>".$course['completed']."</td></tr>";
-			}
+        $tree[$id] = $courses;
+		if($courses) foreach($courses as $index => $course) {
+            $nrtotal++;
+            $author = DEVMODE ? 'DEVMODE' : $db->getOne(
+                "SELECT member_name FROM `smf_members` WHERE `id_member`=':id'",
+                array(':id' => $course['author']));
+            $finished = $db->getOne(
+                "SELECT finished FROM `hackits_courseresults` WHERE `userid`=:userid AND `courseid`=:courseid",
+                array(
+                    ':userid' => $usernameid,
+                    ':courseid' => $course['id']));
+            if($finished) {
+                $checked = "<em class=\"checked\"></em>";
+                $nrcompleted++;
+            } else {
+                $checked = "";
+            }
+            $urlname = urlencode($course['title']);
+            $output .= <<<°
+                <tr>
+                    <td class="check">$checked</td>
+                    <td>{$course['title']}</td>
+                    <td>{$course['points']}</td>
+                    <td>{$course['level']}</td>
+                    <td>{$author}</td>
+                    <td>{$course['completed']}</td>
+                </tr>
+°;
 		}
 
-		echo "<h3><a href=\"#\">".$name." (".$nrcompleted."/".$nrtotal.")</a></h3><div>";
+        $link = "/overview/".urlencode($name);
+		echo "<h3><a rel=\"address:$link\" href=\"$link\">".$name." (".$nrcompleted."/".$nrtotal.")</a></h3><div>";
 		echo "<p>".$description[$id]."</p>";
 		echo "<div class=\"tablecontainer\"><table><tr><th class=\"check\"></th><th class=\"title\">Title</th><th class=\"points\">Points</th><th class=\"level\">Level</th><th class=\"author\">Author</th><th class=\"completed\">Passed</th></tr>";
 		echo $output;
@@ -84,7 +94,6 @@ require("../settings.php");
 		echo "</div>";
 
 	}
-	mysql_close($link);
 
 ?>
 </div>

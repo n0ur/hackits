@@ -1,5 +1,4 @@
 <?
-
 ///////////////////////////////////////////////////////////////////////////////////
 // 888    888        d8888  .d8888b.  888    d8P  8888888 88888888888 .d8888b.   //
 // 888    888       d88888 d88P  Y88b 888   d8P     888       888    d88P  Y88b  //
@@ -23,26 +22,17 @@
 
 require("../getsmfuser.php");
 
-// If an id is passed as argument, load course directly
-if(isset($_GET['id']))
-{
-	$id = htmlspecialchars($_GET['id']);
-	$loadcourse = "$(document).ready(function() { $(\"#course\").load(\"course.php?id=\"+".$id."); $(\"#tabs\").tabs(\"select\" , \"tab-course\") } )";
-}
-
 // format date for display in header bar
 $showdate = date('F d, o, h:i:s A');
 
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>Hackits.be - Courses</title>
 	<link rel="stylesheet" href="css/jquery-ui-1.8.17.custom.css">
 	<link rel="stylesheet" href="css/hackits-courses.css">
-	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/jquery-1.8.2.js"></script>
 	<script src="js/jquery.ui.core.js"></script>
 	<script src="js/jquery.ui.widget.js"></script>
 	<script src="js/jquery.ui.button.js"></script>
@@ -50,11 +40,80 @@ $showdate = date('F d, o, h:i:s A');
 	<script src="js/jquery.ui.tabs.js"></script>
 	<script src="js/jquery.ui.dialog.js"></script>
 	<script src="js/jquery.ui.accordion.js"></script>
+    <script src="js/jquery.address.js"></script>
+<!--    <script src="js/jquery.history.js"></script>-->
 	<script>
 	$(function() {
-		$( "#tabs" ).tabs();
-		$( "#courses" ).accordion({ autoHeight: false });
-	});
+        var tabStates = { //default states
+            overview: '/overview/General',
+            course: '/course/General/Intro+to+Hackits+Courses/Hackits+Courses',
+            ranking: '/ranking',
+            help: '/help'
+        },
+        selectPart = function(part){
+            var part = $("#"+part);
+            part.show().siblings().hide();
+        },
+        getPanelIndex = function(str){
+            return $('.ui-accordion-header a').filter(function(){
+                return (new RegExp(str)).test($(this).text())
+            }).parent().index() / 2;
+        },
+        updateState = function(e){
+            var parts = e.path.split('/')
+              , tab = parts[1]
+              , category = parts[2] || ''
+              , course = parts[3] || ''
+              , chapter = parts[4] || '';
+            if(tab.length){ //select tab
+                $("#tabs").tabs("select", '#'+tab.replace(/^#/,''));
+            }
+            if(category.length){ //select accordion panel
+                $("#courses").accordion("activate", getPanelIndex(category));
+                $('a[href$="/course/'+category+'"]').siblings('input').attr('checked', true);
+            }
+            if(course.length){ //select course
+                $('a[href$="/course/'+category+'/'+course+'"]').siblings('input').attr('checked', true);
+            }
+            if(chapter.length){ //select chapter
+                $('#coursenavigation li.file a').each(function(){
+                    $(this).closest('li').toggleClass('selected',
+                        (new RegExp(e.path.replace(/\+/g, '\\+')+'$', 'i'))
+                            .test($(this).attr('href')));
+                });
+                $('#coursecontent').html(
+                    $('[id="'
+                    + $('a[href$="/course/'+category+'/'+course+'/'+chapter+'"]:not([rel=overview])').data('chapterid')
+                    + '"]').html());
+            }
+        };
+
+        $("#tabs").tabs({
+            select: function(event, ui){
+                var oldSelected = $('#tabs .ui-tabs-selected a').attr('href').replace(/^#/, '')
+                        , newSelected = ui.tab.hash.replace(/^#/, '');
+                if((new RegExp('^/'+newSelected, 'i')).test($.address.path())){ return; }
+                tabStates[oldSelected] = $.address.path();
+                $.address.path(tabStates[newSelected]);
+            }
+        });
+        $("#courses").accordion({
+            autoHeight: false,
+            animated: false
+        });
+
+        $.address.init(function(e){
+            if($.address.path() === '/'){
+                $.address.path(tabStates.overview); //default to overview
+            }
+            $('#coursenavigation .file a[data-chapterid]').address(function() {
+                return $(this).attr('href');
+            });
+            tabStates[$.address.path().match(/^\/([^\/]+)/)[0].substr(1)] = $.address.path();
+        }).change(updateState)
+        .internalChange({}, updateState)
+        .externalChange({}, updateState);
+    });
 	</script>
 </head>
 <body>
@@ -78,25 +137,28 @@ $showdate = date('F d, o, h:i:s A');
 <div id="tabs">
 
 	<ul>
-		<li class="tab"><a href="#tab-overview">Course Overview</a></li>
-		<li class="tab"><a href="#tab-course">Current Course</a></li>
-		<li class="tab"><a href="#tab-ranking">Ranking List</a></li>
-		<li class="tab"><a href="#tab-help">Help</a></li>
+		<li class="tab"><a rel="address:/overview" href="#overview">Course Overview</a></li>
+		<li class="tab"><a rel="address:/course" href="#course">Current Course</a></li>
+		<li class="tab"><a rel="address:/ranking" href="#ranking">Ranking List</a></li>
+		<li class="tab"><a rel="address:/help" href="#help">Help</a></li>
 	</ul>
 
-	<div id="tab-overview">
+	<div id="overview">
 		<? include("overview.php"); ?>
 	</div>
 
-	<div id="tab-course">
-		<? include("course.php"); ?>
+	<div id="course">
+		<?
+        require_once("courseheader.php");
+        include("course.php");
+        ?>
 	</div>
 
-	<div id="tab-ranking">
+	<div id="ranking">
 		<? include("ranking.php"); ?>
 	</div>
 
-	<div id="tab-help">
+	<div id="help">
 		<? include("help.php"); ?>
 	</div>
 
@@ -105,12 +167,8 @@ $showdate = date('F d, o, h:i:s A');
 </div> <!-- end-of-container -->
 
 <script>
-  function showCourse(id){
-      $("#course").load("course.php?id="+id);
-      $("#tabs").tabs( "select" , "tab-course" )
-  }
-  <? echo $loadcourse; ?>
+  <? echo isset($loadcourse) ? $loadcourse : ''; ?>
 </script>
-
+<?php Utils::queryLog(); ?>
 </body>
 </html>
