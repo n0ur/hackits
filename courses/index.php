@@ -98,7 +98,8 @@ $showdate = date('F d, o, h:i:s A');
             }
         });
         $("#courses").accordion({
-            autoHeight: false
+            autoHeight: false,
+            animated: false
         });
 
         $.address.init(function(e){
