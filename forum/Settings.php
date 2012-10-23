@@ -27,7 +27,7 @@ $cookiename = 'SMFCookie7';		# Name of the cookie to set for authentication.
 ########## Database Info ##########
 $db_type = 'mysql';
 $db_server = 'localhost';
-$db_name = 'hackits.be';
+$db_name = 'hackits';
 $db_user = 'hackits.be';
 $db_passwd = 'Eichlosleg';
 $ssi_db_user = '';
