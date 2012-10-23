@@ -62,18 +62,18 @@ $showdate = date('F d, o, h:i:s A');
         updateState = function(e){
             var parts = e.path.split('/')
               , tab = parts[1]
-              , panel = parts[2] || ''
+              , category = parts[2] || ''
               , course = parts[3] || ''
               , chapter = parts[4] || '';
             if(tab.length){ //select tab
                 $("#tabs").tabs("select", '#'+tab.replace(/^#/,''));
             }
-            if(panel.length){ //select accordion panel
-                $("#courses").accordion("activate", getPanelIndex(panel));
-                $('a[href$="/course/'+panel+'"]').siblings('input').attr('checked', true);
+            if(category.length){ //select accordion panel
+                $("#courses").accordion("activate", getPanelIndex(category));
+                $('a[href$="/course/'+category+'"]').siblings('input').attr('checked', true);
             }
             if(course.length){ //select course
-                $('a[href$="/course/'+panel+'/'+course+'"]').siblings('input').attr('checked', true);
+                $('a[href$="/course/'+category+'/'+course+'"]').siblings('input').attr('checked', true);
             }
             if(chapter.length){ //select chapter
                 $('#coursenavigation li.file a').each(function(){
@@ -83,7 +83,7 @@ $showdate = date('F d, o, h:i:s A');
                 });
                 $('#coursecontent').html(
                     $('[id="'
-                    + $('a[href$="/course/'+panel+'/'+course+'/'+chapter+'"]:not([rel=overview])').data('chapterid')
+                    + $('a[href$="/course/'+category+'/'+course+'/'+chapter+'"]:not([rel=overview])').data('chapterid')
                     + '"]').html());
             }
         };
