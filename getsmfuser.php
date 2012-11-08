@@ -23,7 +23,7 @@ require_once('settings.php');
 //                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////
 
-if(constant('DEVMODE')){
+if(DEVMODE){
     $usernametext = "DEVMODE";
     $loggedin = $usernameid = 1;
     return;

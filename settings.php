@@ -30,6 +30,7 @@ $__DEVS = array(
 
 require_once('scripts/init.php');
 
+define('DOC_ROOT', dirname(__FILE__));
 
 // MySQL settings
 $dbhost           = "localhost";

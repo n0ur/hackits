@@ -20,13 +20,15 @@
 //                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////
 
+require_once 'settings.php';
+
 set_time_limit(0);
 
 $server_host 	= "irc.quakenet.org";
 $server_port 	= "6667";
 $server_channel = "#hackits.de";
 $nickname 		= "hackitsbot";
-$logfile 		= "/srv/http/hackits.be/frontpage/logfile";
+$logfile 		= DOC_ROOT."/frontpage/logfile";
 $controlchar	= "!";
 
 $server['SOCKET'] = fsockopen($server_host, $server_port, $errno, $errstr, 2);

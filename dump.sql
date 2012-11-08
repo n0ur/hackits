@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `hackits_challengeresults` (
   `lastattempt` int(11) NOT NULL,
   `penultimateattempt` int(11) DEFAULT NULL,
   `lastsolution` varchar(250) NOT NULL
+  PRIMARY KEY (`userid`, `challengeid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `hackits_challengeresults` (`userid`, `challengeid`, `finished`, `lastattempt`, `penultimateattempt`, `lastsolution`) VALUES
