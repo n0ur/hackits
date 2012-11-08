@@ -56,3 +56,4 @@ function init(){
     }
 }
 init();
+if(!defined('DEVMODE')) define('DEVMODE', false);

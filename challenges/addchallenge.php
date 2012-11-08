@@ -21,22 +21,18 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 require("../settings.php");
-if($_GET['pass']!=$challengeaddpass) die($wrongpasserror);
+if(!isset($_GET['pass'])) die($wrongpasserror);
+if($_GET['pass'] != $challengeaddpass) die($wrongpasserror);
 
 //////////////////
 // Form handler //
 //////////////////
 
-if(isset($_POST['points']))
-{
-	// Connect to MySQL
-	$link = mysql_connect($dbhost, $dbwriteuser, $dbwritepass);
-	mysql_select_db($dbname);
-
+if(isset($_POST['hashinput'])){
 	// Sanitize form input
-	$type = (int)mysql_real_escape_string($_POST['type']);
-	$answer = mysql_real_escape_string($_POST['answer']);
-	$hashinput = mysql_real_escape_string($_POST['hashinput']);
+	$type = $_POST['type'];
+	$answer = $_POST['answer'];
+	$hashinput = $_POST['hashinput'];
 
 	// Validate form input
 	if(strlen($answer)>250 || strlen($type)>5 || strlen($hashinput)>100)
@@ -46,17 +42,27 @@ if(isset($_POST['points']))
 	if(!is_numeric($type))
 		die("Only answer can contain anything else then numbers!");
 
-	if($type==1) // plain
-	{
-		mysql_query("INSERT INTO hackits_challenges VALUES ('0','$type','$answer','0');") or die(mysql_error());
-		echo "<p>Added succesfully!<br />URL for use in forum post: https://www.hackits.be/challenges/check.php?id=".mysql_insert_id($link)."&answer=";
+	switch($type){ // plain
+        case 1:
+            $msg = "<p>Added succesfully!<br />URL for use in forum post: https://www.hackits.be/challenges/check.php?id=%s&answer=";
+            break;
+	    case 2:
+            $answer = hash("sha512",$hashinput);
+            $msg = "<p>Added succesfully!<br />URL that completes challenge: https://www.hackits.be/challenges/check.php?id=%s&hash=";
+            break;
+        default:
 	}
-	else if($type==2) // hash
-	{
-		$hash = hash("sha512",$hashinput);
-		mysql_query("INSERT INTO hackits_challenges VALUES ('0','$type','$hash','0');") or die(mysql_error());
-		echo "<p>Added succesfully!<br />URL that completes challenge: https://www.hackits.be/challenges/check.php?id=".mysql_insert_id($link)."&hash=".$hash;
-	}
+
+    $id = $db->exec("
+        INSERT INTO hackits_challenges
+        VALUES (:id, :type, :answer, :points)",
+        array(
+            ':id' => null,
+            ':type' => $type,
+            ':answer' => $answer,
+            ':points' => 0,
+        ));
+    printf($msg, $id);
 }
 
 //////////////////

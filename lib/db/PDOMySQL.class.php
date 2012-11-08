@@ -66,4 +66,35 @@ class PDOMySQL {
         }
         $st->closeCursor();
     }
+
+    public function exec($query, $params = null){
+        $now = microtime(true);
+        try {
+            self::$wConn->beginTransaction();
+            $st = self::$wConn->prepare($query);
+            if($params) array_walk($params, function($val, $key) use ($st){
+                $st->bindParam($key, $val);
+            });
+            if($st->execute()){
+                self::log(array('query' => $query, 'time' => microtime(true) -  $now));
+            }
+            $lastInsertId = self::lastInsertId();
+            return self::$wConn->commit()
+                ? $lastInsertId
+                : null;
+        } catch(Exception $e){
+            self::$wConn->rollBack();
+            trigger_error($e->getMessage(), E_USER_WARNING);
+        }
+        $error = $st->errorInfo();
+        if(intval($error[0]) > 0){// catch sql syntax errors
+            trigger_error($error[2], E_USER_WARNING);
+        }
+        $st->closeCursor();
+    }
+
+    public function lastInsertId(){
+        return self::$wConn->lastInsertId();
+    }
+
 }

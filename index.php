@@ -205,7 +205,7 @@ require("getsmfuser.php");
 					if($loggedin)
 					{
 						unset($output);
-						exec("tail -15 /srv/http/hackits.be/frontpage/logfile 2>&1", $output);
+						exec("tail -15 ".DOC_ROOT."/frontpage/logfile 2>&1", $output);
 						$channel = "#hackits.de";
 						foreach($output as $outputline) {
 							$start = strpos($outputline,"PRIVMSG $channel");
