@@ -154,7 +154,7 @@
             'exam' => array(
                 'exam1' => <<<°
                 <h2>No Exam Time yet!</h2><br />
-                <? if(!$loggedin) echo $notloggedintext; ?>
+                $msg
                 <form id="examnform" name="examnform" method="post" action="">
                     <div class="question">
                         <h3>Question 1</h3><br />
