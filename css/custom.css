@@ -29,8 +29,9 @@ header .navbar .navbar-inner .container {
   font-size: 14px;
   font-weight: bold;
   line-height: 20px;
-  padding:10px 30px;
+  padding:15px 40px;
   text-indent: 30px;
+  text-align: justify;
 }
 header .navbar .navbar-inner {
   background-image: none;
