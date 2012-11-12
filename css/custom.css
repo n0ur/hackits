@@ -25,7 +25,8 @@ header .navbar .navbar-inner .container {
   text-align: center;
 }
 .wrapper .lead {
-  font-size: 16px;
+  background-color: #eee;
+  font-size: 14px;
   font-weight: bold;
   line-height: 20px;
   padding:10px 30px;
@@ -46,7 +47,7 @@ header .navbar .navbar-inner .nav > .active > a:focus {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-  background-color: #8e9295;
+  background-color: #7b858a;
 }
 .boxie {
   width:370px;
