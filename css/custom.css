@@ -28,9 +28,14 @@ header .navbar .navbar-inner .container {
   background-color: #e5e1de;
   font-size: 14px;
   font-weight: bold;
-  line-height: 20px;
+  line-height: 22px;
   padding:15px 40px;
   text-align: center;
+}
+.wrapper .lead .paragraph_lead{
+  font-size: 17px;
+  font-weight: bolder;
+  color:#C10435;
 }
 header .navbar .navbar-inner {
   background-image: none;
