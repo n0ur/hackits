@@ -30,8 +30,7 @@ header .navbar .navbar-inner .container {
   font-weight: bold;
   line-height: 20px;
   padding:15px 40px;
-  text-indent: 30px;
-  text-align: justify;
+  text-align: center;
 }
 header .navbar .navbar-inner {
   background-image: none;
