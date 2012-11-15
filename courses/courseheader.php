@@ -20,16 +20,13 @@
 //                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////
 
-require("../getsmfuser.php");
+require_once("../getsmfuser.php");
 
 $notloggedintext = "<p class=\"warning\">Warning: You aren't logged in to the Hackits forum, submitting this exam will only count if you are logged in!</p>";
+$courseid = isset($_GET['id']) ? $_GET['id'] : 0;
 
 ?>
 <script type="text/javascript">
-
-	// shows the specified div and hides all others
-	function selectPart(part){ $("#"+part).show().siblings().hide(); }
-
 	// when the examn form is submitted, show the results in a dialog window
 	$(document).ready(function(){
 		$("#examnform").submit( function () {
@@ -37,8 +34,7 @@ $notloggedintext = "<p class=\"warning\">Warning: You aren't logged in to the Ha
 		   'examnhandler.php?id=<? echo $courseid; ?>',
 			$(this).serialize(),
 			function(data){
-				$("#examnresult").empty().append( data );
-				$("#examnresult").dialog("open");
+				$("#examnresult").empty().append(data).dialog("open");
 			}
 		  );
 		  return false;

@@ -23,24 +23,63 @@
 ?>
 <div id="course">
 <?
-	//
-	// Description: Load the course file specified by the GET variable 'id'
-	//
+    $category = isset($_GET['category']) ? $_GET['category'] : null;
+    $course = isset($_GET['course']) ? $_GET['course'] : null;
+    $chapter = isset($_GET['chapter']) ? $_GET['chapter'] : null;
+    //TODO: implement static pages for non-js browsers (via url rewriting)
+    $mincourseid = 0;
+    $maxcourseid = 100000;
 
-	$courseid = $_GET['id'];
-	$errorstring = "<p class=\"center\"><img alt=\"Y U NO GIVE ID\" src=\"images/yuno.png\" /><br /><br />No active course, select a valid course from the overview!</p>";
-	$filename = "courses/course".$courseid.".php";
-	$mincourseid = 0;
-	$maxcourseid = 100000;
+	$selectCourse = "<p class=\"center\"><img alt=\"Y U NO GIVE ID\" src=\"images/yuno.png\" /><br /><br />No active course, select a valid course from the navigation on the left!
+	</p>";
 
-	if(!isset($courseid)||!is_numeric($courseid)||$courseid<$mincourseid||$courseid>$maxcourseid)
-		echo $errorstring;
-	else
-	{
-		if(is_readable($filename))
-			include($filename);
-		else
-			echo $errorstring;
-	}
+
+    echo '<div id="coursenavigation">
+            <ol class="tree">';
+
+    foreach($categories as $id => $name){
+        echo '<li><a href="/course/'.urlencode($name).'"><label for="'.urlencode($name).'">
+                '.$name.'</label></a>
+                <input type="checkbox" id="'.urlencode($name).'" />';
+        if(count($tree[$id]) > 0){
+            echo '<ol>';
+        }
+        foreach($tree[$id] as $course){
+            echo '<li><a href="/course/'.urlencode($name)
+                    .'/'.urlencode($course['title']).'"><label for="'.urlencode($course['title']).'">
+                    '.$course['title'].'</label></a>
+                    <input type="checkbox" id="'.urlencode($course['title']).'" />
+                    <ol>';
+            $filename = "courses/course".$course['id'].".php";
+            if(is_readable($filename)){
+                $courseData = include($filename);
+            }
+            if($courseData['nav']) foreach($courseData['nav'] as $chapterType => $chapters){
+                if($chapters) foreach($chapters as $contentId => $chapterName){
+                    //$chapterType class to style icons
+                    echo '<li class="file '.$chapterType.'"><a
+                            data-contentid="'.$contentId.'"
+                            data-chapterid="'.$chapterName.'_'.$course['id'].'"
+                            href="/course/'.urlencode($name)
+                                .'/'.urlencode($course['title'])
+                                .'/'.urlencode($chapterName).'">'.$chapterName.'
+                            </a>
+                            <script type="text/html" id="'.$chapterName.'_'.$course['id'].'">
+                                '.$courseData['content'][$chapterType][$contentId].'
+                            </script>
+                        </li>';
+                }
+            }
+            echo '</ol></li>';
+        }
+        if(count($tree[$id]) > 0){
+            echo '</ol>';
+        }
+        echo '</li>';
+    }
+    echo '</ol><!-- end ol class tree -->
+        </div><!-- end div id="coursenavigation" -->';
+
 ?>
+    <div id="coursecontent"><?php echo $selectCourse; ?></div>
 </div>

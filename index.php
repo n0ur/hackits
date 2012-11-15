@@ -23,9 +23,7 @@
 require("settings.php");
 require("getsmfuser.php");
 
-?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -207,7 +205,7 @@ require("getsmfuser.php");
 					if($loggedin)
 					{
 						unset($output);
-						exec("tail -15 /srv/http/hackits.be/frontpage/logfile 2>&1", $output);
+						exec("tail -15 ".DOC_ROOT."/frontpage/logfile 2>&1", $output);
 						$channel = "#hackits.de";
 						foreach($output as $outputline) {
 							$start = strpos($outputline,"PRIVMSG $channel");
@@ -288,5 +286,6 @@ require("getsmfuser.php");
 
 	</div>
 </div>
+<?php Utils::queryLog(); ?>
 </body>
 </html>

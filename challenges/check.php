@@ -38,16 +38,15 @@ $successtext = "<p>Success!</p>";
 </head>
 <body>
 <?
-
 // die quickly when getting odd input
-$unsanitized_id = $_GET['id'];
-$unsanitized_answer = $_GET['answer'];
-$unsanitized_hash = $_GET['hash'];
-if( !isset($unsanitized_id) || !is_numeric($unsanitized_id) || $unsanitized_id<$minchallengeid || $unsanitized_id>$maxchallengeid )
+$challengeid = isset($_GET['id']) ? $_GET['id'] : null;
+$answer = isset($_GET['answer']) ? $_GET['answer'] : null;
+$hash = isset($_GET['hash']) ? $_GET['hash'] : null;
+if( !isset($challengeid) || !is_numeric($challengeid) || $challengeid<$minchallengeid || $challengeid>$maxchallengeid )
 	die("Invalid challenge id! If you've reached this place without messing with the URL, tell staff about it!");
-if( isset($unsanitized_answer) && isset($unsanitized_hash) )
+if( isset($answer) && isset($hash) )
 	die("You can't submit both a hash and an answer! If you've reached this place without messing with the URL, tell staff about it!");
-if( !isset($unsanitized_answer) && !isset($unsanitized_hash) )
+if( !isset($answer) && !isset($hash) )
 	die("You must either submit a hash or an answer! If you've reached this place without messing with the URL, tell staff about it!");
 
 // Include script that gathers the username from the SMF cookie. This script provides
@@ -57,37 +56,36 @@ if( !isset($unsanitized_answer) && !isset($unsanitized_hash) )
 
 require("../getsmfuser.php");
 
-if(!$loggedin)
-{
+if(!DEVMODE && !$loggedin){
 	die("<p>No active forum session found! Please log in to the Hackits forum, and submit again.</p>");
 }
-
-// Make read-only database connection
-$dblink = mysql_connect($dbhost,$dbreaduser,$dbreadpass);
-mysql_select_db($dbname);
-
-// Sanitize variables
-$challengeid = mysql_real_escape_string($unsanitized_id);
-$answer = mysql_real_escape_string($unsanitized_answer);
-$hash = mysql_real_escape_string($unsanitized_hash);
 
 // Check for sanity of $challengeid variable
 if(!isset($challengeid)||!is_numeric($challengeid)||$challengeid<$minchallengeid||$challengeid>$maxchallengeid)
 	die("Invalid challenge id! If you've reached this place without messing with the URL, tell staff about it!");
-if(mysql_num_rows(mysql_query("SELECT * FROM `hackits_challenges` WHERE `id`='".$challengeid."';"))==0)
+if($db->count("`hackits_challenges` WHERE `id`=:id", array(':id' => $challengeid)) === 0)
 	die("No challenge with this ID exists! If you've reached this place without messing with the URL, tell staff about it!");
 
 // Check if user
 // - hasn't already completed the challenge
 // - hasn't unsuccesfully attempted it within the minimum retry period
-$result = mysql_query("SELECT finished,lastattempt,penultimateattempt,lastsolution FROM `hackits_challengeresults` WHERE `challengeid`='".$challengeid."' AND `userid`='".$usernameid."';");
-	$finished = mysql_result($result,0,0);
-	$lastattempt = mysql_result($result,0,1);
-	$penultimateattempt = mysql_result($result,0,2);
-	$lastsolution = mysql_result($result,0,3);
-$result = mysql_query("SELECT type,answer FROM `hackits_challenges` WHERE `id`='".$challengeid."';");
-	$challengetype = mysql_result($result,0,0);
-	$challengeanswer = mysql_result($result,0,1);
+$result = $db->getOne("
+    SELECT finished,lastattempt,penultimateattempt,lastsolution
+    FROM `hackits_challengeresults`
+    WHERE `challengeid`=:challengeid AND `userid`=:userid", array(
+        ':challengeid' => $challengeid,
+        ':userid' => $usernameid));
+	$finished = $result['finished'];
+	$lastattempt = $result['lastattempt'];
+	$penultimateattempt = $result['penultimateattempt'];
+	$lastsolution = $result['lastsolution'];
+$result = $db->getOne("
+    SELECT `type`,answer
+    FROM `hackits_challenges`
+    WHERE `id`=:challengeid", array(
+        ':challengeid' => $challengeid));
+	$challengetype = $result['type'];
+	$challengeanswer = $result['answer'];
 
 $currenttime = time();
 
@@ -122,49 +120,64 @@ else if($lastattempt>0 && $penultimateattempt > 0)
 	}
 }
 
-// All input sanitation is done now, input validation can begin.
-
-// Make write-enabled MySQL connection
-$dblink = mysql_connect($dbhost, $dbwriteuser, $dbwritepass);
-mysql_select_db($dbname);
-
 // If answer is correct
-if(($challengetype==1 && ($answer==$challengeanswer)) || ($challengetype==2 && ($hash==$challengeanswer)))
-{
+if(($challengetype==1 && ($answer==$challengeanswer)) || ($challengetype==2 && ($hash==$challengeanswer))){
 	// increment number of completions for this challenge
-	mysql_query("UPDATE hackits_challenges SET completed=completed+1 WHERE id='$challengeid';") or die(mysql_error());
+	$db->exec("
+	    UPDATE hackits_challenges
+	    SET completed=completed+1
+	    WHERE id=:challengeid", array(
+            ':challengeid' => $challengeid));
 
 	// update hackits_challengeresults table with results
-	if($lastattempt>0)
-	{
-		mysql_query("UPDATE hackits_challengeresults SET finished='$currenttime',lastattempt='0',penultimateattempt='0',lastsolution='0' WHERE userid='$usernameid' AND challengeid='$challengeid';") or die(mysql_error());
+	if($lastattempt>0){
+        $db->exec("
+            UPDATE hackits_challengeresults
+            SET finished=:currenttime,lastattempt=0,penultimateattempt=0,lastsolution=0
+            WHERE userid=:userid
+            AND challengeid=:challengeid", array(
+                ':currenttime' => $currenttime,
+                ':userid' => $usernameid,
+                ':challengeid' => $challengeid));
+	} else {
+        $db->exec("
+            INSERT INTO hackits_challengeresults
+            VALUES (:userid, :challengeid, :currenttime, :lastattempt, :penultimateattempt, :lastsolution)", array(
+                ':currenttime' => $currenttime,
+                ':userid' => $usernameid,
+                ':challengeid' => $challengeid,
+                ':lastattempt' => 0,
+                ':penultimateattempt' => 0,
+                ':lastsolution' => 0));
 	}
-	else
-	{
-		mysql_query("INSERT INTO hackits_challengeresults VALUES ('$usernameid', '$challengeid','$currenttime','0','0','0')") or die(mysql_error());
-	}
-
 	echo $successtext;
-}
-// If answer is false
-else
-{
+} else {// answer is false
 	if($challengetype==1) $lastanswer = $answer;
 	else if($challengetype==2) $lastanswer = $hash;
 
-	if($lastattempt>0)
-	{
-		mysql_query("UPDATE hackits_challengeresults SET lastattempt='$currenttime',penultimateattempt='$lastattempt',lastsolution='$lastanswer' WHERE userid='$usernameid' AND challengeid='$challengeid';") or die(mysql_error());
+	if($lastattempt>0) {
+		$db->exec("
+		    UPDATE hackits_challengeresults
+		    SET lastattempt=:currenttime,penultimateattempt=:lastattempt,lastsolution=:lastanswer
+		    WHERE userid=:userid AND challengeid=:challengeid", array(
+                ':currenttime' => $currenttime,
+                ':lastattempt' => $lastattempt,
+                ':lastanswer' => $lastanswer,
+                ':userid' => $usernameid,
+                ':challengeid' => $challengeid));
+	} else {
+		$db->exec("
+		    INSERT INTO hackits_challengeresults
+		    VALUES (:userid, :challengeid, :finished, :lastattempt, :penultimateattempt,:lastanswer)", array(
+                ':userid' => $usernameid,
+                ':challengeid' => $challengeid,
+                ':finished' => 0,
+                ':lastattempt' => $currenttime,
+                ':penultimateattempt' => 0,
+                ':lastanswer' => $lastanswer));
 	}
-	else
-	{
-		mysql_query("INSERT INTO hackits_challengeresults VALUES ('$usernameid', '$challengeid','0','$currenttime','0','$lastanswer')") or die(mysql_error());
-	}
-
 	echo $failtext;
 }
-
-
 ?>
 </body>
 </html>
