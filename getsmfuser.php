@@ -38,7 +38,7 @@ if($sessionid=="")
 else
 {
 
-	$query = "SELECT `member_name`,`id_member` FROM `smf_members` WHERE `id_member` = (SELECT `id_member` FROM `smf_log_online` WHERE `session`=':session')";
+	$query = "SELECT `member_name`,`id_member` FROM `smf_members` WHERE `id_member` = (SELECT `id_member` FROM `smf_log_online` WHERE `session`=:session)";
     $res = $db->getOne($query, array(':session' => $sessionid));
 	$usernametext = $res['member_name'];
 	$usernameid = $res['id_member'];
