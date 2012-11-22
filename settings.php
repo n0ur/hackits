@@ -66,7 +66,7 @@ $challengeaddpass = "";
 $courseaddpass    = "";
 
 // Fill private settings with secret data
-require("private_settings.php");
+// require("private_settings.php");
 
 $db = new PDOMySQL(array(
    'host' => $dbhost,
