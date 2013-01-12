@@ -29,52 +29,35 @@ require("getsmfuser.php");
   <meta charset="utf-8">
   <meta name="description" content="Hackits.be" />
   <title>Hackits.be</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/custom.css">
-  <script src="js/jquery-1.8.1.min.js"></script>
+  <link rel="stylesheet" href="frontpage/css/bootstrap.min.css">
+  <link rel="stylesheet" href="frontpage/css/custom.css">
+  <script src="frontpage/js/jquery-1.8.1.min.js"></script>
 </head>
 
 <body>
-  <header>
-    <div class="navbar navbar-fixed-top navbar-inverse">
-      <div class="navbar-inner">
-        <div class="container">
-          <ul class="nav">
-            <li class="active"><a href="index.php">Home</a></li>
-            <li><a href="forum/">Forum</a></li>
-            <li><a href="challenges/">Challenges</a></li>
-            <li><a href="courses/">Courses</a></li>
-            <li><? if(!$loggedin) { ?><a href="forum/index.php?action=login">Login</a><? }
-            else { ?> Logged in as: <a href="forum/index.php?action=profile">[ <? echo $usernametext; ?> ]</a><? } ?></li>
-          </ul>
-          <ul class="nav pull-right">
-            <li><a href="#"><? echo date('F d, o, h:i:s A'); ?></a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </header>
+  <?php include("frontpage/shared/_header.php"); ?>
+  
   <div class="container wrapper">
-    <div class="logo"><img src="img/hackits_logo.png" alt="Hackits.be" title="Hackits.be" /></div>
+    <div class="logo"><img src="frontpage/img/hackits_logo.png" alt="Hackits.be" title="Hackits.be" /></div>
     <p class="lead">
       <span class="paragraph_lead">Welcome to Hackits,</span> a community that's all about learning the art of hacking, sharing knowledge and demonstrating expertise by solving challenges and doing courses.<br /> Start by checking out some of [parts of the site]. Make sure to register to keep track of your score and have access to all parts of the website.
     </p>
     <div class="row">
       <div class="span12 clearfix">
         <div class="boxie">
-          <p class="title"><img src="img/glyphicons_352_nameplate.png" alt="profile" /> Your Hackits Profile</p>
+          <p class="title"><img src="frontpage/img/glyphicons_352_nameplate.png" alt="profile" /> Your Hackits Profile</p>
           <p class="pbody">
             under construction
           </p>
         </div>
         <div class="boxie">
-          <p class="title"><img src="img/glyphicons_328_podium.png" alt="ranking" /> Hackits Ranking List</p>
+          <p class="title"><img src="frontpage/img/glyphicons_328_podium.png" alt="ranking" /> Hackits Ranking List</p>
           <p class="pbody">
             under construction
           </p>
         </div>
         <div class="boxie">
-          <p class="title"><img src="img/glyphicons_411_twitter.png" /> @hackits</p>
+          <p class="title"><img src="frontpage/img/glyphicons_411_twitter.png" /> @hackits</p>
           <p class="pbody">
             <script charset="utf-8" src="https://widgets.twimg.com/j/2/widget.js" type="text/javascript"></script>
             <script type="text/javascript">
@@ -89,12 +72,8 @@ require("getsmfuser.php");
     <div class="row">
       <div class="span12 clearfix">
         <div class="boxie">
-          <p class="title"><img src="img/glyphicons_417_rss.png" alt="rss" /><a href="http://www.osvdb.org/">OSVDB Latest Vulnerabilities</a></p>
+          <p class="title"><img src="frontpage/img/glyphicons_417_rss.png" alt="rss" /><a href="http://www.osvdb.org/">OSVDB Latest Vulnerabilities</a></p>
           <ul class="pbody unstyled">
-            <li><a href="http://s1.rsspump.com/link.aspx?s=230dd345-12af-447f-8017-5916ad290841&amp;i=57b46cbc-2c37-4f7f-b05b-a7c908d1d3de" target="_parent" rel="noreferrer">Oracle Grid Engine Unspecified Local Privilege Escalation</a></li>
-            <li><a href="http://s1.rsspump.com/link.aspx?s=230dd345-12af-447f-8017-5916ad290841&amp;i=57b46cbc-2c37-4f7f-b05b-a7c908d1d3de" target="_parent" rel="noreferrer">Oracle Grid Engine Unspecified Local Privilege something</a></li>
-            <li><a href="http://s1.rsspump.com/link.aspx?s=230dd345-12af-447f-8017-5916ad290841&amp;i=57b46cbc-2c37-4f7f-b05b-a7c908d1d3de" target="_parent" rel="noreferrer">Oracle Grid Engine Unspecified Local Privilege Escalation blah something blah</a></li>
-          </ul>
           <script type="text/javascript">
             <?
               $foo = file_get_contents("http://s1.rsspump.com/js.aspx?s=230dd345-12af-447f-8017-5916ad290841&amp;t=0&amp;d=0&amp;u=0&amp;p=1&amp;b=1&amp;co=0&amp;ic=9&amp;font=Verdana&amp;fontsize=12px&amp;bgcolor=&amp;color=000000&amp;su=1&amp;sub=1&amp;sw=1");
@@ -103,14 +82,11 @@ require("getsmfuser.php");
               echo $foo;
             ?>
           </script>
+          </ul>
         </div>
         <div class="boxie">
-          <p class="title"><img src="img/glyphicons_417_rss.png" alt="rss" /> <a href="http://seclists.org/bugtraq/" target="new">SecurityFocus Bugtraq</a></p>
+          <p class="title"><img src="frontpage/img/glyphicons_417_rss.png" alt="rss" /> <a href="http://seclists.org/bugtraq/" target="new">SecurityFocus Bugtraq</a></p>
           <ul class="pbody unstyled">
-            <li><a href="http://s1.rsspump.com/link.aspx?s=230dd345-12af-447f-8017-5916ad290841&amp;i=57b46cbc-2c37-4f7f-b05b-a7c908d1d3de" target="_parent" rel="noreferrer">Oracle Grid Engine Unspecified Local Privilege Escalation</a></li>
-            <li><a href="http://s1.rsspump.com/link.aspx?s=230dd345-12af-447f-8017-5916ad290841&amp;i=57b46cbc-2c37-4f7f-b05b-a7c908d1d3de" target="_parent" rel="noreferrer">Oracle Grid Engine Unspecified Local Privilege something</a></li>
-            <li><a href="http://s1.rsspump.com/link.aspx?s=230dd345-12af-447f-8017-5916ad290841&amp;i=57b46cbc-2c37-4f7f-b05b-a7c908d1d3de" target="_parent" rel="noreferrer">Oracle Grid Engine Unspecified Local Privilege Escalation blah something blah</a></li>
-          </ul>
           <script type="text/javascript">
           <?
             $foo = file_get_contents("http://s1.rsspump.com/js.aspx?s=60eebe16-4f04-4c1a-b16b-ce4bf1670d5c&amp;t=0&amp;d=0&amp;u=0&amp;p=1&amp;b=1&amp;co=0&amp;ic=9&amp;font=Verdana&amp;fontsize=12px&amp;bgcolor=&amp;color=000000&amp;su=1&amp;sub=1&amp;sw=1");
@@ -119,10 +95,11 @@ require("getsmfuser.php");
             echo $foo;
           ?>
           </script>
+          </ul>
         </div>
         <div class="boxie">
-          <p class="title"><img src="img/glyphicons_417_rss.png" alt="rss" /> <a href="http://news.hitb.org/">Hack in the Box</a></p>
-          <p class="pbody">
+          <p class="title"><img src="frontpage/img/glyphicons_417_rss.png" alt="rss" /> <a href="http://news.hitb.org/">Hack in the Box</a></p>
+          <ul class="pbody unstyled">
             <script type="text/javascript">
             <?
               $foo = file_get_contents("http://s1.rsspump.com/js.aspx?s=39a2d6db-0bd0-4b41-8c21-80fd34165e37&amp;t=0&amp;d=0&amp;u=0&amp;p=1&amp;b=1&amp;co=0&amp;ic=9&amp;font=Verdana&amp;fontsize=12px&amp;bgcolor=&amp;color=000000&amp;su=1&amp;sub=1&amp;sw=1");
@@ -131,14 +108,14 @@ require("getsmfuser.php");
               echo $foo;
             ?>
             </script>
-          </p>
+          </ul>
         </div>
       </div>
     </div> 
     <div class="row">
       <div class="span12 clearfix">
         <div class="boxie">
-          <p class="title"><img src="img/glyphicons_244_conversation.png" alt="rss" /> Recent IRC Activity</p>
+          <p class="title"><img src="frontpage/img/glyphicons_244_conversation.png" alt="rss" /> Recent IRC Activity</p>
           <p class="pbody">
             <?
               if($loggedin)
@@ -169,45 +146,21 @@ require("getsmfuser.php");
           </p>
         </div>
         <div class="boxie">
-          <p class="title"><img src="img/glyphicons_268_keyboard_wireless.png" alt="rss" /> Latest Challenges</p>
+          <p class="title"><img src="frontpage/img/glyphicons_268_keyboard_wireless.png" alt="rss" /> Latest Challenges</p>
           <p class="pbody">
             under construction
           </p>
         </div>
         <div class="boxie">
-          <p class="title"><img src="img/glyphicons_330_blog.png" alt="rss" /> Latest Courses</p>
+          <p class="title"><img src="frontpage/img/glyphicons_330_blog.png" alt="rss" /> Latest Courses</p>
           <p class="pbody">
             under construction
           </p>
         </div>
       </div>
     </div>
-    <footer>
-      <a target="new" href="http://ipv6-test.com/validate.php?url=https://www.hackits.be" rel="noreferrer">
-        <img src="img/ipv6.png" alt="IPv6 Ready" title="This website is available over IPv6">
-      </a>
-      <a target="new" href="http://validator.w3.org/check?uri=https://www.hackits.be">
-        <img src="img/valid_xhtml.png" alt="Valid XHTML 1.0 Transitional" title="This website is Valid XHTML 1.0 Transitional">
-      </a>
-      <a target="new" href="http://www.archlinux.org/" rel="noreferrer">
-        <img src="img/arch-linux.png" alt="Powered by Arch Linux" title="Powered by Arch Linux">
-      </a>
-      <a target="new" href="http://httpd.apache.org/" rel="noreferrer">
-        <img src="img/apache-powered.png" alt="Powered by Apache" title="Powered by the Apache HTTPD">
-      </a>
-      <a target="new" href="http://www.mysql.com/" rel="noreferrer">
-        <img src="img/mysql-powered.jpg" alt="Powered by MySQL" title="Powered by MySQL">
-      </a>
-      <a target="new" href="http://www.php.net/">
-        <img src="img/php-powered.png" alt="Powered by PHP" title="Powered by PHP">
-      </a><br />
-
-      <ul>
-        <li><a href="frontpage/privacy.html">Privacy Disclaimer</a></li> - 
-        <li><a href="frontpage/copyright.html">License &amp; Copyright</a></li> - 
-        <li><a href="frontpage/terms.html">Terms of Agreement</a></li>
-      </ul>
-    </footer>  
+  
+    <?php include("frontpage/shared/_footer.html"); ?>
   </div>
 <?php Utils::queryLog(); ?>
 </body>

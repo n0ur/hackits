@@ -79,3 +79,29 @@ $db = new PDOMySQL(array(
 ));
 
 require_once('getsmfuser.php');
+
+//////////////////////
+// Paths settings   //
+//////////////////////
+$rootdir       = '/var/www/hackits';
+$subdir        = '/hackits';
+
+$forumdir      = $subdir . '/forum';
+$coursesdir    = $subdir . '/courses';
+$challengesdir = $subdir . '/challenges';
+$frontdir      = $subdir . '/frontpage';
+
+$imgdir    = $frontdir . '/img';
+$cssdir    = $frontdir . '/css';
+$jsdir     = $frontdir . '/js';
+$shareddir = $frontdir . '/shared';
+
+//////////////////////
+// Useful methods   //
+//////////////////////
+// wtf rewrite this method
+function isCurrentPage($path) {
+  $currentPath = pathinfo( $_SERVER['PHP_SELF'] );
+  $path = pathinfo($path);
+  return $currentPath['dirname']===$path['dirname'] && $currentPath['basename']===$path['basename'];
+}
