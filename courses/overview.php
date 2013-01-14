@@ -20,8 +20,6 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 ?>
-
-<div class="tab-pane fade active in" id="overview">
 <?
   // Set category names and descriptions
   $categories = array(1 => 'General',
@@ -102,4 +100,3 @@
   }
   echo '</div>';
 ?>
-</div>

@@ -21,7 +21,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 ?>
-<div id="course">
+<ul class="unstyled tree span3">
 <?
     $category = isset($_GET['category']) ? $_GET['category'] : null;
     $course = isset($_GET['course']) ? $_GET['course'] : null;
@@ -30,56 +30,41 @@
     $mincourseid = 0;
     $maxcourseid = 100000;
 
-	$selectCourse = "<p class=\"center\"><img alt=\"Y U NO GIVE ID\" src=\"images/yuno.png\" /><br /><br />No active course, select a valid course from the navigation on the left!
-	</p>";
-
-
-    echo '<div id="coursenavigation">
-            <ol class="tree">';
+	$selectCourse = "<p class=\"center\"><img alt=\"Y U NO GIVE ID\" src=\"images/yuno.png\" /><br /><br />No active course, select a valid course from the navigation on the left!</p>";
 
     foreach($categories as $id => $name){
-        echo '<li><a href="/course/'.urlencode($name).'"><label for="'.urlencode($name).'">
-                '.$name.'</label></a>
-                <input type="checkbox" id="'.urlencode($name).'" />';
+        echo '<li class="level0"><i class="icon-folder-open"></i><span class="underline">'. urlencode($name) .'</span>';
         if(count($tree[$id]) > 0){
-            echo '<ol>';
-        }
-        foreach($tree[$id] as $course){
-            echo '<li><a href="/course/'.urlencode($name)
-                    .'/'.urlencode($course['title']).'"><label for="'.urlencode($course['title']).'">
-                    '.$course['title'].'</label></a>
-                    <input type="checkbox" id="'.urlencode($course['title']).'" />
-                    <ol>';
-            $filename = "courses/course".$course['id'].".php";
-            if(is_readable($filename)){
-                $courseData = include($filename);
-            }
-            if($courseData['nav']) foreach($courseData['nav'] as $chapterType => $chapters){
-                if($chapters) foreach($chapters as $contentId => $chapterName){
-                    //$chapterType class to style icons
-                    echo '<li class="file '.$chapterType.'"><a
-                            data-contentid="'.$contentId.'"
-                            data-chapterid="'.$chapterName.'_'.$course['id'].'"
-                            href="/course/'.urlencode($name)
-                                .'/'.urlencode($course['title'])
-                                .'/'.urlencode($chapterName).'">'.$chapterName.'
-                            </a>
-                            <script type="text/html" id="'.$chapterName.'_'.$course['id'].'">
-                                '.$courseData['content'][$chapterType][$contentId].'
-                            </script>
-                        </li>';
+            echo '<ul class="unstyled">';
+            foreach($tree[$id] as $course){
+                echo '<li class="level1"><i class="icon-folder-open"></i><span class="underline">'.$course['title'].'</span>';
+                echo '<ul class="unstyled">';
+
+                $filename = "courses/course".$course['id'].".php";
+                if(is_readable($filename)){
+                    $courseData = include($filename);
                 }
+                if($courseData['nav']) foreach($courseData['nav'] as $chapterType => $chapters){
+                    if($chapters) foreach($chapters as $contentId => $chapterName){
+                        echo '<li>';
+                        switch($chapterType) {
+                            case 'default': 
+                                echo '<i class="icon-file"></i>'; break;
+                            case 'exercises':
+                                echo '<i class="icon-tasks"></i>'; break;
+                            case 'exam':
+                                echo '<i class="icon-certificate"></i>'; break;
+                        }
+                        echo '<a href="#">'.$chapterName.'</a></li>';
+                    }
+                }
+                echo '</ul></li>';
             }
-            echo '</ol></li>';
-        }
-        if(count($tree[$id]) > 0){
-            echo '</ol>';
+            echo '</ul>';
         }
         echo '</li>';
     }
-    echo '</ol><!-- end ol class tree -->
-        </div><!-- end div id="coursenavigation" -->';
-
 ?>
-    <div id="coursecontent"><?php echo $selectCourse; ?></div>
-</div>
+</ul><!-- end ul class tree -->
+    
+<div class="span8 courseContent"><?php echo $selectCourse; ?></div>

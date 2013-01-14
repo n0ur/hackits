@@ -35,7 +35,79 @@ $showdate = date('F d, o, h:i:s A');
   <link rel="stylesheet" href="../frontpage/css/custom.css">
   <script src="../frontpage/js/jquery-1.8.1.min.js"></script>
   <script src="../frontpage/js/bootstrap.min.js"></script>
+  <script>
+  // $(function() {
+  //       var tabStates = { //default states
+  //           overview: '/overview/General',
+  //           course: '/course/General/Intro+to+Hackits+Courses/Hackits+Courses',
+  //           ranking: '/ranking',
+  //           help: '/help'
+  //       },
+  //       selectPart = function(part){
+  //           var part = $("#"+part);
+  //           part.show().siblings().hide();
+  //       },
+  //       getPanelIndex = function(str){
+  //           return $('.ui-accordion-header a').filter(function(){
+  //               return (new RegExp(str)).test($(this).text())
+  //           }).parent().index() / 2;
+  //       },
+  //       updateState = function(e){
+  //           var parts = e.path.split('/')
+  //             , tab = parts[1]
+  //             , category = parts[2] || ''
+  //             , course = parts[3] || ''
+  //             , chapter = parts[4] || '';
+  //           if(tab.length){ //select tab
+  //               $("#tabs").tabs("select", '#'+tab.replace(/^#/,''));
+  //           }
+  //           if(category.length){ //select accordion panel
+  //               $("#courses").accordion("activate", getPanelIndex(category));
+  //               $('a[href$="/course/'+category+'"]').siblings('input').attr('checked', true);
+  //           }
+  //           if(course.length){ //select course
+  //               $('a[href$="/course/'+category+'/'+course+'"]').siblings('input').attr('checked', true);
+  //           }
+  //           if(chapter.length){ //select chapter
+  //               $('#coursenavigation li.file a').each(function(){
+  //                   $(this).closest('li').toggleClass('selected',
+  //                       (new RegExp(e.path.replace(/\+/g, '\\+')+'$', 'i'))
+  //                           .test($(this).attr('href')));
+  //               });
+  //               $('#coursecontent').html(
+  //                   $('[id="'
+  //                   + $('a[href$="/course/'+category+'/'+course+'/'+chapter+'"]:not([rel=overview])').data('chapterid')
+  //                   + '"]').html());
+  //           }
+  //       };
 
+  //       $("#tabs").tabs({
+  //           select: function(event, ui){
+  //               var oldSelected = $('#tabs .ui-tabs-selected a').attr('href').replace(/^#/, '')
+  //                       , newSelected = ui.tab.hash.replace(/^#/, '');
+  //               if((new RegExp('^/'+newSelected, 'i')).test($.address.path())){ return; }
+  //               tabStates[oldSelected] = $.address.path();
+  //               $.address.path(tabStates[newSelected]);
+  //           }
+  //       });
+  //       $("#courses").accordion({
+  //           autoHeight: false,
+  //           animated: false
+  //       });
+
+  //       $.address.init(function(e){
+  //           if($.address.path() === '/'){
+  //               $.address.path(tabStates.overview); //default to overview
+  //           }
+  //           $('#coursenavigation .file a[data-chapterid]').address(function() {
+  //               return $(this).attr('href');
+  //           });
+  //           tabStates[$.address.path().match(/^\/([^\/]+)/)[0].substr(1)] = $.address.path();
+  //       }).change(updateState)
+  //       .internalChange({}, updateState)
+  //       .externalChange({}, updateState);
+  //   });
+  </script>
 </head>
 
 <body>
@@ -54,86 +126,23 @@ $showdate = date('F d, o, h:i:s A');
             <li class=""><a href="#rank" data-toggle="tab">Ranking List</a></li>
             <li class=""><a href="#help" data-toggle="tab">Help</a></li>
           </ul>
+
           <div id="tabContent" class="tab-content">
-            <? include("overview.php"); ?>
-            
+            <div class="tab-pane fade active in" id="overview">
+              <? include("overview.php"); ?>
+            </div>
+
             <div class="tab-pane fade" id="current">
-              <p>Food truck fixie locavore, accusamus mcsweeney's marfa
-               nulla single-origin coffee squid. Exercitation +1 labore velit,
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                 craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk
-                  aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                    Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY
-                     ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr 
-                     butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+              <?
+                require_once("courseheader.php");
+                include("course.php");
+              ?>
             </div>
+
             <div class="tab-pane fade" id="rank">
-              <p>Food truck fixie locavore, accusamus mcsweeney's marfa
-               nulla single-origin coffee squid. Exercitation +1 labore velit,
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                 craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk
-                  aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                    Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY
-                     ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr 
-                     butcher vero sint qui sapiente accusamus tattooed echo park.</p>              
             </div>
-            <div class="tab-pane fade" id="help">
-              <p>Food truck fixie locavore, accusamus mcsweeney's marfa
-               nulla single-origin coffee squid. Exercitation +1 labore velit,
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-                 craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk
-                  aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                   mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown.
-                    Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY
-                     ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr 
-                     butcher vero sint qui sapiente accusamus tattooed echo park.</p>                
+
+            <div class="tab-pane fade" id="help">             
             </div>
           </div>
         </div>
