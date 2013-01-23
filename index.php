@@ -29,8 +29,9 @@ require("getsmfuser.php");
   <meta charset="utf-8">
   <meta name="description" content="Hackits.be" />
   <title>Hackits.be</title>
-  <link rel="stylesheet" href="frontpage/css/bootstrap.min.css">
+  <link rel="stylesheet" href="frontpage/css/bootstrap.css">
   <link rel="stylesheet" href="frontpage/css/custom.css">
+  <link rel="stylesheet" href="frontpage/css/bootstrap-responsive.css">
   <script src="frontpage/js/jquery-1.8.1.min.js"></script>
 </head>
 
@@ -38,6 +39,7 @@ require("getsmfuser.php");
   <?php include("frontpage/shared/_header.php"); ?>
   
   <div class="container wrapper">
+     <p class="pbody date"><? echo date('F d, o, h:i:s A'); ?></p>
     <div class="logo"><img src="frontpage/img/hackits_logo.png" alt="Hackits.be" title="Hackits.be" /></div>
     <p class="lead">
       <span class="paragraph_lead">Welcome to Hackits,</span> a community that's all about learning the art of hacking, sharing knowledge and demonstrating expertise by solving challenges and doing courses.<br /> Start by checking out some of [parts of the site]. Make sure to register to keep track of your score and have access to all parts of the website.

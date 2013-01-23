@@ -46,9 +46,9 @@
   // Make database connection
 
   // make this an Affix?
-  echo '<ul class="nav nav-tabs nav-stacked span2">';
+  echo '<ul class="nav nav-tabs nav-stacked span2 coursesList">';
   foreach($categories as $id => $name) {
-    echo '<li><a href="#'.urlencode($name).'">'.urlencode($name).'</a></li>';
+    echo '<li><a href="#/overview/'.strtolower($name).'">'.urlencode($name).'</a></li>';
   }
   echo '</ul>';
   
@@ -91,7 +91,7 @@
                 </tr>
 °;
     }
-    echo "<h4 id=\"$name\"><span>$name</span><small>&nbsp;($nrcompleted/$nrtotal)</small></h4>";
+    echo "<h4 id='".strtolower($name)."'><span>$name</span><small>&nbsp;($nrcompleted/$nrtotal)</small></h4>";
     echo "<p>$description[$id]</p>";
     echo '<table class="table table-condensed table-bordered">';
     echo '<thead><tr><th width="10px"></th><th>Title</th><th>Points</th><th>Level</th><th>Author</th><th>Passed</th></tr></thead><tbody>';

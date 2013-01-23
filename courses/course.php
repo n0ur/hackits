@@ -33,11 +33,16 @@
 	$selectCourse = "<p class=\"center\"><img alt=\"Y U NO GIVE ID\" src=\"images/yuno.png\" /><br /><br />No active course, select a valid course from the navigation on the left!</p>";
 
     foreach($categories as $id => $name){
-        echo '<li class="level0"><i class="icon-folder-open"></i><span class="underline">'. urlencode($name) .'</span>';
+        if(count($tree[$id]) > 0){
+            echo '<li class="level0"><i class="icon-folder-open"></i>';
+        } else {
+            echo '<li class="level0"><i class="icon-folder-close"></i>';
+        }
+        echo '<a class="title" href="#/course/'.renameTitle($name).'">'. urlencode($name) .'</a>';
         if(count($tree[$id]) > 0){
             echo '<ul class="unstyled">';
             foreach($tree[$id] as $course){
-                echo '<li class="level1"><i class="icon-folder-open"></i><span class="underline">'.$course['title'].'</span>';
+                echo '<li class="level1"><i class="icon-folder-open"></i><a class="title" href="#/course/'.renameTitle($name).'/'.renameTitle($course['title']).'">'.$course['title'].'</a>';
                 echo '<ul class="unstyled">';
 
                 $filename = "courses/course".$course['id'].".php";
@@ -55,14 +60,14 @@
                             case 'exam':
                                 echo '<i class="icon-certificate"></i>'; break;
                         }
-                        echo '<a href="#">'.$chapterName.'</a></li>';
+                        echo '<a href="#/course/'.renameTitle($name).'/'. renameTitle($course['title']).'/'.renameTitle($chapterName).'">'.$chapterName.'</a></li>';
+                        // course content: $courseData['content'][$chapterType][$contentId];
                     }
                 }
                 echo '</ul></li>';
             }
-            echo '</ul>';
+            echo '</ul></li>';
         }
-        echo '</li>';
     }
 ?>
 </ul><!-- end ul class tree -->

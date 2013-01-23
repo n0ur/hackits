@@ -56,7 +56,7 @@
         }
         $table[] = '</tbody>';
     }
-    echo '<table>'.implode('', $table).'</table>'
+    echo '<table class="table table-condensed table-bordered">'.implode('', $table).'</table>'
 
 
 ?>

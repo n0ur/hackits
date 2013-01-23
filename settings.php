@@ -83,6 +83,7 @@ require_once('getsmfuser.php');
 //////////////////////
 // Paths settings   //
 //////////////////////
+//TODO: rewrite those using define();
 $rootdir       = '/var/www/hackits';
 $subdir        = '/hackits';
 
@@ -99,9 +100,17 @@ $shareddir = $frontdir . '/shared';
 //////////////////////
 // Useful methods   //
 //////////////////////
-// wtf rewrite this method
 function isCurrentPage($path) {
   $currentPath = pathinfo( $_SERVER['PHP_SELF'] );
+  $currentPath = $currentPath['dirname'].'/'.$currentPath['basename'];
+
   $path = pathinfo($path);
-  return $currentPath['dirname']===$path['dirname'] && $currentPath['basename']===$path['basename'];
+  $path = $path['dirname'].'/'.$path['basename'];
+
+  return $currentPath===$path;
+}
+function renameTitle($title) {
+    $title = strtolower($title);
+    $title = str_replace(" ","_", $title);
+    return $title;
 }
