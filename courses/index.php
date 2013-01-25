@@ -71,7 +71,7 @@ $showdate = date('F d, o, h:i:s A');
               }
             }
             if(course.length){ //select course
-              aCourse = $('a[href="#/course/'+category+'/'+course+'"]');
+              var aCourse = $('a[href="#/course/'+category+'/'+course+'"]');
               if(aCourse.length) {
                 console.log("here")
                 aCourse.next('ul').show();

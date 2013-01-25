@@ -60,6 +60,13 @@ header .navbar .navbar-inner .nav > .active > a:focus {
   box-shadow: none;
   background-color: #C10435;
 }
+header ul.login {
+  color: #999;
+  font-weight: bold;
+}
+header ul.login a {
+  display: inline;
+}
 .boxie {
   width:370px;
   margin:0 0px 0 10px;
