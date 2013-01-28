@@ -1,0 +1,2 @@
+#!/bin/bash
+mysqldump -uhackits -phackits hackits > hackits.sql
