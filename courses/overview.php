@@ -20,43 +20,50 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 ?>
-<div id="courses">
 <?
+  // Set category names and descriptions
+  $categories = array(1 => 'General',
+            2 => 'Networking',
+            3 => 'Security',
+            4 => 'Windows',
+            5 => 'Linux',
+            6 => 'Hardware',
+            7 => 'Programming',
+            8 => 'Internet',
+            9 => 'Databases',
+            10 => 'Cryptography');
+  $description = array(1 => 'Courses related to the Hackits website itself and courses that don\'t specifically fit into one of the other categories.',
+            2 => 'Networking Description',
+            3 => 'Security Description',
+            4 => 'Windows Description',
+            5 => 'Linux Description',
+            6 => 'Hardware Description',
+            7 => 'Programming Description',
+            8 => 'Internet Description',
+            9 => 'Databases Description',
+            10 => 'Cryptography Description');
 
-	// Set category names and descriptions
-	$categories = array(1 => 'General',
-						2 => 'Networking',
-						3 => 'Security',
-						4 => 'Windows',
-						5 => 'Linux',
-						6 => 'Hardware',
-						7 => 'Programming',
-						8 => 'Internet',
-						9 => 'Databases',
-						10 => 'Cryptography');
-	$description = array(1 => 'Courses related to the Hackits website itself and courses that don\'t specifically fit into one of the other categories.',
-						2 => 'Networking Description',
-						3 => 'Security Description',
-						4 => 'Windows Description',
-						5 => 'Linux Description',
-						6 => 'Hardware Description',
-						7 => 'Programming Description',
-						8 => 'Internet Description',
-						9 => 'Databases Description',
-						10 => 'Cryptography Description');
+  // Make database connection
 
-	// Make database connection
+  // make this an Affix?
+  echo '<ul class="nav nav-tabs nav-stacked span2 coursesList">';
+  foreach($categories as $id => $name) {
+    echo '<li><a href="#/overview/'.strtolower($name).'">'.urlencode($name).'</a></li>';
+  }
+  echo '</ul>';
+  
 
-    $tree = array();
-	// Display the courses
-	foreach($categories as $id => $name) {
-
-		$nrtotal = 0;
-		$nrcompleted = 0;
-		$courses = $db->getAll("SELECT * FROM `hackits_courses` WHERE `category`=:category", array(':category' => $id));
-		$output = "";
-        $tree[$id] = $courses;
-		if($courses) foreach($courses as $index => $course) {
+  echo '<div class="span9">';
+  $tree = array();
+  // Display the courses
+  foreach($categories as $id => $name) {
+    $nrtotal = 0;
+    $nrcompleted = 0;
+    $courses = $db->getAll("SELECT * FROM `hackits_courses` WHERE `category`=:category", array(':category' => $id));
+    $output = "";
+    $tree[$id] = $courses;
+  
+    if($courses) foreach($courses as $index => $course) {
             $nrtotal++;
             $author = DEVMODE ? 'DEVMODE' : $db->getOne(
                 "SELECT member_name FROM `smf_members` WHERE `id_member`=':id'",
@@ -83,17 +90,13 @@
                     <td>{$course['completed']}</td>
                 </tr>
 °;
-		}
-
-        $link = "/overview/".urlencode($name);
-		echo "<h3><a rel=\"address:$link\" href=\"$link\">".$name." (".$nrcompleted."/".$nrtotal.")</a></h3><div>";
-		echo "<p>".$description[$id]."</p>";
-		echo "<div class=\"tablecontainer\"><table><tr><th class=\"check\"></th><th class=\"title\">Title</th><th class=\"points\">Points</th><th class=\"level\">Level</th><th class=\"author\">Author</th><th class=\"completed\">Passed</th></tr>";
-		echo $output;
-		echo "</table></div>";
-		echo "</div>";
-
-	}
-
+    }
+    echo "<h4 id='".strtolower($name)."'><span>$name</span><small>&nbsp;($nrcompleted/$nrtotal)</small></h4>";
+    echo "<p>$description[$id]</p>";
+    echo '<table class="table table-condensed table-bordered">';
+    echo '<thead><tr><th width="10px"></th><th>Title</th><th>Points</th><th>Level</th><th>Author</th><th>Passed</th></tr></thead><tbody>';
+    echo $output;
+    echo '</tbody></table>';
+  }
+  echo '</div>';
 ?>
-</div>

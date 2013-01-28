@@ -19,6 +19,6 @@
 //                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////
 ?>
-<h1>Help!</h1>
+<h3>Help!</h3>
 <p>For a general introduction to this Courses system, please check out the 'Intro to Hackits Courses' course in the General category. Click on the tab 'Course Overview' to head over there.</p>
 <p>If you have specific questions about a course or have found a bug, let us know on the <a href="../forum/index.php?topic=13.0">forum</a>.</p>

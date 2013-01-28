@@ -28,22 +28,22 @@ $courseid = isset($_GET['id']) ? $_GET['id'] : 0;
 ?>
 <script type="text/javascript">
 	// when the examn form is submitted, show the results in a dialog window
-	$(document).ready(function(){
-		$("#examnform").submit( function () {
-		  $.post(
-		   'examnhandler.php?id=<? echo $courseid; ?>',
-			$(this).serialize(),
-			function(data){
-				$("#examnresult").empty().append(data).dialog("open");
-			}
-		  );
-		  return false;
-		});
-	});
-	$("#examnresult").dialog({ autoOpen: false, minWidth: 500 });
+	// $(document).ready(function(){
+	// 	$("#examnform").submit( function () {
+	// 	  $.post(
+	// 	   'examnhandler.php?id=<? echo $courseid; ?>',
+	// 		$(this).serialize(),
+	// 		function(data){
+	// 			$("#examnresult").empty().append(data).dialog("open");
+	// 		}
+	// 	  );
+	// 	  return false;
+	// 	});
+	// });
+	// $("#examnresult").dialog({ autoOpen: false, minWidth: 500 });
 
-	// start with only the default div shown
-	$("#default").show().siblings().hide();
+	// // start with only the default div shown
+	// $("#default").show().siblings().hide();
 
 </script>
 

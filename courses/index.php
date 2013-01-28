@@ -28,147 +28,125 @@ $showdate = date('F d, o, h:i:s A');
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Hackits.be - Courses</title>
-	<link rel="stylesheet" href="css/jquery-ui-1.8.17.custom.css">
-	<link rel="stylesheet" href="css/hackits-courses.css">
-	<script src="js/jquery-1.8.2.js"></script>
-	<script src="js/jquery.ui.core.js"></script>
-	<script src="js/jquery.ui.widget.js"></script>
-	<script src="js/jquery.ui.button.js"></script>
-	<script src="js/jquery.ui.position.js"></script>
-	<script src="js/jquery.ui.tabs.js"></script>
-	<script src="js/jquery.ui.dialog.js"></script>
-	<script src="js/jquery.ui.accordion.js"></script>
-    <script src="js/jquery.address.js"></script>
-<!--    <script src="js/jquery.history.js"></script>-->
-	<script>
-	$(function() {
+  <meta charset="utf-8">
+  <meta name="description" content="Hackits.be" />
+  <title>Hackits.be - Courses</title>
+  <!-- <link rel="stylesheet" href="../frontpage/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="../frontpage/css/bootstrap.css">
+  <link rel="stylesheet" href="../frontpage/css/custom.css">
+  <link rel="stylesheet" href="../frontpage/css/bootstrap-responsive.css">
+  <script src="../frontpage/js/jquery-1.8.1.min.js"></script>
+  <script src="../frontpage/js/bootstrap.min.js"></script>
+  <script src="js/jquery.address.js"></script>
+  <script src="js/jquery.scrollTo-1.4.3.1-min.js"></script>
+  <script>
+  $(function() {
         var tabStates = { //default states
-            overview: '/overview/General',
-            course: '/course/General/Intro+to+Hackits+Courses/Hackits+Courses',
+            overview: '/overview',
+            course: '/course',
             ranking: '/ranking',
             help: '/help'
         },
-        selectPart = function(part){
-            var part = $("#"+part);
-            part.show().siblings().hide();
-        },
-        getPanelIndex = function(str){
-            return $('.ui-accordion-header a').filter(function(){
-                return (new RegExp(str)).test($(this).text())
-            }).parent().index() / 2;
-        },
         updateState = function(e){
             var parts = e.path.split('/')
-              , tab = parts[1]
+              , tab = tabStates.hasOwnProperty(parts[1]) ? parts[1] : 'overview'
               , category = parts[2] || ''
               , course = parts[3] || ''
               , chapter = parts[4] || '';
             if(tab.length){ //select tab
-                $("#tabs").tabs("select", '#'+tab.replace(/^#/,''));
+                $('.tab-pane.active').removeClass('active').addClass('fade');
+                $('#coursesTabs li.active').removeClass('active');
+                $('#'+tab).addClass('active in');
+                $('#coursesTabs li a[href=#'+tab+']').parent().addClass('active');
             }
             if(category.length){ //select accordion panel
-                $("#courses").accordion("activate", getPanelIndex(category));
-                $('a[href$="/course/'+category+'"]').siblings('input').attr('checked', true);
+              var h4Cat = $('h4#'+category),
+              aCat = $('a[href="#/course/'+category+'"]');
+              if(h4Cat.length) {  // we dont want this to get executed when we're in #/courses/etc
+                $.scrollTo(h4Cat);
+                $.scrollTo('-=20px');
+              } 
+              if (aCat.length) {
+                aCat.next('ul').show();
+              }
             }
             if(course.length){ //select course
-                $('a[href$="/course/'+category+'/'+course+'"]').siblings('input').attr('checked', true);
+              var aCourse = $('a[href="#/course/'+category+'/'+course+'"]');
+              if(aCourse.length) {
+                console.log("here")
+                aCourse.next('ul').show();
+              }
             }
             if(chapter.length){ //select chapter
-                $('#coursenavigation li.file a').each(function(){
-                    $(this).closest('li').toggleClass('selected',
-                        (new RegExp(e.path.replace(/\+/g, '\\+')+'$', 'i'))
-                            .test($(this).attr('href')));
-                });
-                $('#coursecontent').html(
-                    $('[id="'
-                    + $('a[href$="/course/'+category+'/'+course+'/'+chapter+'"]:not([rel=overview])').data('chapterid')
-                    + '"]').html());
+              //TODO: what's another way to load courses?
             }
         };
-
-        $("#tabs").tabs({
-            select: function(event, ui){
-                var oldSelected = $('#tabs .ui-tabs-selected a').attr('href').replace(/^#/, '')
-                        , newSelected = ui.tab.hash.replace(/^#/, '');
-                if((new RegExp('^/'+newSelected, 'i')).test($.address.path())){ return; }
-                tabStates[oldSelected] = $.address.path();
-                $.address.path(tabStates[newSelected]);
-            }
+        $('ul#coursesTabs li a').click(function(e){
+          var index = $(this).attr('href').replace(/^#/, '');
+          $.address.path(tabStates[index]);
         });
-        $("#courses").accordion({
-            autoHeight: false,
-            animated: false
-        });
-
+        $('a.title').next('ul').hide();
         $.address.init(function(e){
             if($.address.path() === '/'){
                 $.address.path(tabStates.overview); //default to overview
             }
-            $('#coursenavigation .file a[data-chapterid]').address(function() {
-                return $(this).attr('href');
-            });
-            tabStates[$.address.path().match(/^\/([^\/]+)/)[0].substr(1)] = $.address.path();
+            // what do these do?
+            // $('#coursenavigation .file a[data-chapterid]').address(function() {
+            //     return $(this).attr('href');
+            // });
+            // tabStates[$.address.path().match(/^\/([^\/]+)/)[0].substr(1)] = $.address.path();
         }).change(updateState)
         .internalChange({}, updateState)
         .externalChange({}, updateState);
     });
-	</script>
+  </script>
 </head>
+
 <body>
-<div id="container">
-<div id="center">
+  <?php include("../frontpage/shared/_header.php"); ?>
 
-	<div id="topbar">
-		<div id="memb_time">
-			<span><? echo $showdate ?></span>
-		</div>
-		<div id="user_area">
-			<p>[ <a href="https://www.hackits.be/forum">Back to the Hackits.be Forum</a> ] [ Logged in as: <b><? echo $usernametext; ?></b> ] [ All content is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> ]</p>
-		</div>
-	</div>
-	<div id="header">
-		<div id="logo">
-			<a href="https://www.hackits.be/index.php"><img src="../forum/Themes/insidiousII2/images/theme/logo.png" alt="Hackits.be" title="Hackits.be" /></a>
-		</div>
-	</div>
+  <div class="container wrapper">
+     <p class="pbody date"><? echo date('F d, o, h:i:s A'); ?></p>
+    <div class="logo"><img src="../frontpage/img/hackits_logo.png" alt="Hackits.be" title="Hackits.be" /></div>
 
-<div id="tabs">
+    <div class="row">
+      <div class="span12">
 
-	<ul>
-		<li class="tab"><a rel="address:/overview" href="#overview">Course Overview</a></li>
-		<li class="tab"><a rel="address:/course" href="#course">Current Course</a></li>
-		<li class="tab"><a rel="address:/ranking" href="#ranking">Ranking List</a></li>
-		<li class="tab"><a rel="address:/help" href="#help">Help</a></li>
-	</ul>
+        <div class="tabbable">
+          <ul id="coursesTabs" class="nav nav-tabs">
+            <li class="active"><a href="#overview" data-toggle="tab">Course Overview</a></li>
+            <li class=""><a href="#course" data-toggle="tab">Current Course</a></li>
+            <li class=""><a href="#ranking" data-toggle="tab">Ranking List</a></li>
+            <li class=""><a href="#help" data-toggle="tab">Help</a></li>
+          </ul>
 
-	<div id="overview">
-		<? include("overview.php"); ?>
-	</div>
+          <div id="tabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="overview">
+              <? include("overview.php"); ?>
+            </div>
 
-	<div id="course">
-		<?
-        require_once("courseheader.php");
-        include("course.php");
-        ?>
-	</div>
+            <div class="tab-pane fade" id="course">
+              <?
+                require_once("courseheader.php");
+                include("course.php");
+              ?>
+            </div>
 
-	<div id="ranking">
-		<? include("ranking.php"); ?>
-	</div>
+            <div class="tab-pane fade" id="ranking">
+              <? include("ranking.php"); ?>
+            </div>
 
-	<div id="help">
-		<? include("help.php"); ?>
-	</div>
+            <div class="tab-pane fade" id="help">             
+              <? include("help.php"); ?>
+            </div>
+          </div>
+        </div>
 
-</div> <!-- end-of-tabs -->
-</div> <!-- end-of-center -->
-</div> <!-- end-of-container -->
 
-<script>
-  <? echo isset($loadcourse) ? $loadcourse : ''; ?>
-</script>
+      </div>
+    </div>
+    <?php include("../frontpage/shared/_footer.html"); ?>
+  </div>
 <?php Utils::queryLog(); ?>
 </body>
 </html>
