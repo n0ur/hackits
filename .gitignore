@@ -4,3 +4,4 @@ private_settings.php
 forum/cache/data*
 forum/Settings_private.php
 frontpage/logfile
+yii/*
