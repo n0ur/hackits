@@ -1,0 +1,9 @@
+[submodule "yii"]
+	path = yii
+	url = git://github.com/yiisoft/yii.git
+[submodule "htdocs/protected/extensions/yiiext/behaviors/trees"]
+	path = htdocs/protected/extensions/yiiext/behaviors/trees
+	url = git://github.com/yiiext/nested-set-behavior.git
+[submodule "htdocs/protected/extensions/giix"]
+	path = htdocs/protected/extensions/giix
+	url = git://github.com/rcoelho/giix.git
